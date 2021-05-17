@@ -12,7 +12,7 @@ yarn add svelte-inline-css
 
 ```svelte
 <script lang="ts">
-  import style from './style';
+  import style from 'svelte-inline-css';
   export let height: `${number}px` = '0px';
 </script>
 
