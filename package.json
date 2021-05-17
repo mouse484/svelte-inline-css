@@ -7,7 +7,8 @@
   "author": "mouse_484 <escmouse484@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "dev":"yarn build && cd example && yarn && yarn dev"
   },
   "dependencies": {
     "csstype": "^3.0.8"

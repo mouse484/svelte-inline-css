@@ -717,7 +717,7 @@ svelte-check@^1.0.0:
     svelte-preprocess "^4.0.0"
     typescript "*"
 
-"svelte-inline-css@link:../":
+"svelte-inline-css@link:..":
   version "0.0.0"
   uid ""
 
