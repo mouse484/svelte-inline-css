@@ -1,0 +1,23 @@
+{
+  "name": "svelte-inline-css",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mouse484/svelte-inline-css.git",
+  "author": "mouse_484 <escmouse484@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "3.3.0",
+    "semantic-release": "^17.4.3"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
