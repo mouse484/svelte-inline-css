@@ -1,79 +1,54 @@
-import { parse, walk } from 'svelte/compiler';
 import { PreprocessorGroup } from 'svelte/types/compiler/preprocess';
-import type {
-  BaseNode,
-  ObjectExpression,
-  Node,
-  Identifier,
-  Literal,
-} from 'estree';
+import { Linter } from 'eslint';
+import type { Node } from 'estree';
 
-interface Element extends BaseNode {
-  attributes: {
-    start: number;
-    end: number;
-    type: string; // use:action
-    name: string; // style
-    modifiers: [];
-    expression: Node[];
-  }[];
-}
-const isElement = (arg: BaseNode): arg is Element => arg.type === 'Element';
-
-interface Action extends BaseNode {
-  type: 'Action';
-  expression: ObjectExpression;
-}
-const isAction = (arg: BaseNode): arg is Action => arg.type === 'Action';
-
-const isIdentifier = (arg: BaseNode): arg is Identifier =>
-  arg.type === 'Identifier';
-const isLiteral = (arg: BaseNode): arg is Literal => arg.type === 'Literal';
+// @ts-ignore
+import pluginSvelte from 'eslint-plugin-svelte3';
+const { preprocess, postprocess } = pluginSvelte.processors.svelte3;
 
 export default (): PreprocessorGroup => {
   return {
-    markup({ content }) {
-      const ast = parse(content);
-
-      if (ast.html) {
-        walk(ast.html, {
-          enter(node) {
-            if (!isElement(node)) return;
-
-            node.attributes.forEach((attribute) => {
-              if (isAction(attribute) && attribute.name === 'style') {
-                attribute.expression.properties.forEach((property) => {
-                  if (property.type === 'Property') {
-                    const { key, value } = property;
-
-                    if (isIdentifier(key) && isLiteral(value)) {
-                      console.log(`{ ${key.name}: ${value.raw} }`);
-                    }
-                  }
-                });
-              }
-            });
+    async markup({ content, filename }) {
+      const linter = new Linter();
+      linter.defineRule('svelte-inline-css', {
+        create(context) {
+          return {
+            'Program': (node: Node) => {
+              console.log(node);
+              context.report({
+                message: 'ayaya',
+                node,
+              });
+            },
+          };
+        },
+      });
+      const messages = linter.verify(
+        content,
+        {
+          parserOptions: {
+            ecmaVersion: 2019,
+            sourceType: 'module',
           },
-        });
-      }
+          env: {
+            es6: true,
+            browser: true,
+          },
+          plugins: ['svelte3'],
+          rules: {
+            'svelte-inline-css': 'error',
+          },
+        },
+        {
+          filename: filename,
+          preprocess,
+          postprocess,
+        }
+      );
+
+      // messages.forEach((message) => console.log(message));
 
       return { code: content };
     },
   };
 };
-
-// {
-//   start: 72,
-//   end: 144,
-//   type: 'Element',
-//   name: 'div',
-//   attributes: [
-//     {
-//       start: 77,
-//       end: 130,
-//       type: 'Action',
-//       name: 'style',
-//       modifiers: [],
-//       expression: [Node]
-//     }
-//   ],

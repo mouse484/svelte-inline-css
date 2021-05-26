@@ -11,7 +11,10 @@
     "dev": "yarn build && cd example && yarn && yarn dev"
   },
   "dependencies": {
-    "csstype": "^3.0.8"
+    "@types/eslint": "^7.2.11",
+    "csstype": "^3.0.8",
+    "eslint": "^7.27.0",
+    "eslint-plugin-svelte3": "^3.2.0"
   },
   "devDependencies": {
     "@types/estree": "^0.0.47",
