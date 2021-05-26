@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev":"yarn build && cd example && yarn && yarn dev"
+    "dev": "yarn build && cd example && yarn && yarn dev"
   },
   "dependencies": {
     "csstype": "^3.0.8"
@@ -21,6 +21,11 @@
   },
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "svelte",
+    "css",
+    "inline-css"
   ],
   "release": {
     "branches": [
