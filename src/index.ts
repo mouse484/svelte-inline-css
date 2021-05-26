@@ -1,17 +1,19 @@
 import type { Properties } from 'csstype';
 
-const style = (node: HTMLElement, parameters: Properties<string | number>) => {
-  function update (parameters: Properties<string | number>) {
+type Parameters = Properties<string | number>;
+
+const style = (node: HTMLElement, parameters: Parameters) => {
+  const setStyle = (parameters: Parameters) => {
     Object.entries(parameters).forEach(([key, value]) => {
       key = key.replace(/[A-Z]/, (substring) => '-' + substring.toLowerCase());
 
       node.style.setProperty(key, value);
     });
-  }
+  };
 
-  update(parameters); // invoked when component is first mounted
+  setStyle(parameters);
 
-  return { update } // to be invoked whenever component is updated
+  return { update: setStyle };
 };
 
 export default style;
