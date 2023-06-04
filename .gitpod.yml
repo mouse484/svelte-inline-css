@@ -1,0 +1,7 @@
+tasks:
+  - init: yarn install && yarn dev
+
+vscode:
+  extensions:
+    - ZixuanChen.vitest-explorer
+    - svelte.svelte-vscode
